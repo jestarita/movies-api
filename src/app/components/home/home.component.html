@@ -1,7 +1,47 @@
-<div class="container">
+<div class="container-fluid" style="margin-top: 5px;">
   <div class="row">
-    <div class="col-sm-4 col-md-4" *ngFor="let movie of info">
-      <div class="card" style="height: 680px;">
+      <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
+    <form>
+        <div class="form-group">
+            <label>Busqueda de pelicula</label>
+            <br>
+           <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
+           [(ngModel)]="filterPost" style="width: 58%;"/>
+         </div>        
+    </form>
+  </div>
+  <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
+      <form>
+          <div class="form-group">
+              <label>Selecion por genero</label>
+              <br>
+              <select class="form-control" style="width: 50%;">
+                  <option value="6"> Accion</option>
+                  <option value="10"> comedia</option>
+                  <option value="10"> fantasia</option>
+                  </select>
+           </div>        
+      </form>
+    </div>
+    <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Resultados por Pagina</label>
+                <br>
+               <select class="form-control" style="width: 35%;" [(ngModel)]="itemsPerPage">
+                 <option value="6"> 6</option>
+                 <option value="9"> 9</option>
+                 <option value="12"> 12</option>
+                 </select>
+             </div>  
+      </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:itemsPerPage, currentPage: p}">
+      <div class="card" style="height: 95%;">
         <img class="card-img-top" src="{{movie.image}}" alt="Card image">
         <div class="card-body">
           <h4 class="card-title">{{movie.nombre}}</h4>
@@ -10,9 +50,16 @@
         </div>
       </div>
      <br>
-
+      
     </div>
+    
 
+  </div>
+
+</div>
+<div class="container" >
+  <div class="row">
+      <pagination-controls (pageChange)="p= $event" responsive="true"></pagination-controls>
   </div>
 
 </div>
