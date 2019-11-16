@@ -5,8 +5,10 @@
         <div class="form-group">
             <label>Busqueda de pelicula</label>
             <br>
+           <!-- <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
+           [(ngModel)]="filterPost" style="width: 58%;"/> -->
            <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
-           [(ngModel)]="filterPost" style="width: 58%;"/>
+           [(ngModel)]="term" style="width: 58%;"/>
          </div>        
     </form>
   </div>
@@ -28,7 +30,7 @@
                 <label>Resultados por Pagina</label>
                 <br>
                <select class="form-control" style="width: 35%;" [(ngModel)]="itemsPerPage">
-                 <option value="6"> 6</option>
+                 <option value="6" > 6</option>
                  <option value="9"> 9</option>
                  <option value="12"> 12</option>
                  </select>
@@ -40,7 +42,8 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:itemsPerPage, currentPage: p}">
+    <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:itemsPerPage, currentPage: p}"> -->
+        <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:itemsPerPage, currentPage: p}">
       <div class="card" style="height: 95%;">
         <img class="card-img-top" src="{{movie.image}}" alt="Card image">
         <div class="card-body">
@@ -50,10 +53,7 @@
         </div>
       </div>
      <br>
-      
     </div>
-    
-
   </div>
 
 </div>
@@ -61,7 +61,6 @@
   <div class="row">
       <pagination-controls (pageChange)="p= $event" responsive="true"></pagination-controls>
   </div>
-
 </div>
 
 
@@ -76,18 +75,19 @@
     <form >
         <div class="form-group">
           <p>
-            pelicula: {{params.nombre}}
+            pelicula: {{parametros.nombre}}
           </p>
         </div>
 
         <div class="form-group">
           <p>
-            Sinopsis: {{params.descripccion}}
+            Sinopsis: {{parametros.descripccion}}
           </p>
         </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" >Add favorites</button>
+      <button type="button"  class="btn btn-danger" (click)="remove_favorites(parametros.nombre)"  [disabled]="ButtonDisabled1">remove From favorites</button>
+      <button  type="button"  class="btn btn-success" (click)="add_favorites(parametros.nombre)" [disabled]="ButtonDisabled">Add favorites</button>
   </div>
 </ng-template>
