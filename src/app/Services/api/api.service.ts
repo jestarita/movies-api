@@ -9,12 +9,16 @@ export class ApiService {
   
   constructor(private _http: HttpClient) {
 
-    this.url = 'https://api-movies-free.herokuapp.com/api/movies';
+    this.url = 'https://api-movies-free.herokuapp.com/api/';
    }
   
       getmovies(){   
-      return this._http.get(this.url);
+      return this._http.get(this.url+'movies');
 
+   }
+
+   getgenres(){
+    return this._http.get(this.url+'genres');
    }
 
 

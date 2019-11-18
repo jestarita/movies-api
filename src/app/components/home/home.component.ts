@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../../Services/api/api.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,29 +17,33 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = false;
   ButtonDisabled: boolean = true;
   ButtonDisabled1: boolean = true;
-  private selected = [];
-  genresArray = [];
+  private selected = []; 
   private everything:any;
+
+  private genres:any;
   private favorite:boolean = true;
+  faStar = faStar;
   constructor(private api: ApiService, config: NgbModalConfig,
     private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
+  variable: any;
   ngOnInit() {
-    this.get_lista();
+    this.get_movies();
+    this.get_list_genres();
+    this.readLocalStorageValue('nombre');
   }
 
-  get_lista() {
+  get_movies() {
     this.isLoading = true;
     this.api.getmovies().subscribe(
       (data: any) => {
         this.info = data.results.sort((a, b)=> a.nombre.localeCompare(b.nombre));
-        this.everything = data.results.sort((a, b)=> a.nombre.localeCompare(b.nombre));
-        this.genresArray = this.getGenres(data.results);   
+        this.everything = data.results.sort((a, b)=> a.nombre.localeCompare(b.nombre));       
         this.isLoading = false;
-        this.status_favorite();
+        
       },
       error => {
         this.isLoading = false;
@@ -48,28 +52,43 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  status_favorite(){
-    this.favorite = false;
+  get_list_genres(){
+    this.api.getgenres().subscribe(
+      (data: any) => {
+        this.genres = data.results.sort((x,z)=> x.label.localeCompare(z.label));
+    }),
+    error => {
+      console.log(<any> error)
+    }
+
   }
 
-  getGenres(list: Array<any>) {
-    let temp = [];
-    list.forEach(l => {
-      l.generos.forEach(g => {
-        temp.push(g)
-      })
-    })
-    return temp.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
-  }
-
+  // getGenres(list: Array<any>) {
+  //   let temp = [];
+  //   list.forEach(l => {
+  //     l.generos.forEach(g => {
+  //       temp.push(g)
+  //     })
+  //   })
+  //   return temp.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+  // }
+  readLocalStorageValue(key):boolean {
+    if (localStorage.getItem(key)) {
+      return true
+    }else{
+      return false;
+    }
+}
 
   exists(parametros) {
     if (localStorage.getItem(parametros.nombre)) {
       this.ButtonDisabled = true;
       this.ButtonDisabled1 = false;
+      this.favorite = true;
     } else {
       this.ButtonDisabled = false;
       this.ButtonDisabled1 = true;
+      this.favorite = false;
     }
   }
 

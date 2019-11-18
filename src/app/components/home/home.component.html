@@ -16,7 +16,7 @@
               <br>
               <select class="form-control" style="width: 50%;" (change)="Filter_genres($event.target.value)">
                   <option value="">---Seleccione--</option> 
-                  <option *ngFor="let item of genresArray"  value="{{item}}"> {{item}}</option>                 
+                  <option *ngFor="let item of genres"  value="{{item.code}}"> {{item.label}}</option>                 
                   </select>
            </div>
     </div>
@@ -41,19 +41,23 @@
       <div *ngIf="isLoading" class="text-center">
         LOADING...
       </div>
-    <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:items, currentPage: p}"> -->
-        <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:items, currentPage: p}">
-      <div class="card" style="height: 95%;">
-        <img class="card-img-top" src="{{movie.image}}" alt="Card image">
-        <div class="card-body">
-          <h4 class="card-title">{{movie.nombre}}</h4>
-          <p class="card-text">Director: {{movie.director}}</p>
-          <button class="btn btn-lg btn-outline-primary" (click)="open(content, movie)">Ver mas</button>
-          <button class="btn btn-lg btn-primary" *ngIf="favorite">guardado favorito</button>
+      
+         <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:items, currentPage: p}"> -->
+        <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:items, currentPage: p}" >
+          <div class="card" style="height: 95%;">
+            <img class="card-img-top" src="{{movie.image}}" alt="Card image" style="height: 550px;">
+            <div class="card-body" >
+              <h5 class="card-title">{{movie.nombre}}</h5>
+              <p class="card-text"><strong>Director:</strong> {{movie.director}}</p>
+              <button class="btn btn-lg btn-outline-primary" (click)="open(content, movie)">Ver mas</button>
+              <a style="float: right;"><fa-icon [icon]="faStar" style="background-color: yellow;" *ngIf="readLocalStorageValue(movie.nombre)"></fa-icon></a>
+            </div>
+          </div>
+         <br>
         </div>
-      </div>
-     <br>
-    </div>
+      
+   
+    
   </div>
 
 </div>
@@ -66,7 +70,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Descripci&oacute;n pelicula</h4>
+    <h4 class="modal-title" id="modal-basic-title"> {{parametros.nombre}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -75,13 +79,19 @@
     <form >
         <div class="form-group">
           <p>
-            pelicula: {{parametros.nombre}}
+            <strong>Calificaci&oacute;n: </strong> <fa-icon [icon]="faStar" style="background-color: yellow;"></fa-icon>  {{parametros.estrellas}}/5.0
           </p>
         </div>
 
         <div class="form-group">
           <p>
-            Sinopsis: {{parametros.descripccion}}
+           <strong> Elenco: </strong> {{parametros.elenco}}
+          </p>
+        </div>
+
+        <div class="form-group">
+          <p>
+            <strong>Sinopsis: </strong> {{parametros.descripccion}}
           </p>
         </div>
     </form>

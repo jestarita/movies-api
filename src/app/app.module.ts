@@ -12,6 +12,8 @@ import { HomeComponent } from './components/home/home.component';
 import { FilterPipe } from './Pipes/filter/filter.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DetailsComponent } from './components/details/details.component';
+// import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,9 @@ import { DetailsComponent } from './components/details/details.component';
     NgbModule,
     FormsModule,
     NgxPaginationModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    // AngularFontAwesomeModule
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
