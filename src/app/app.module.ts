@@ -11,13 +11,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { FilterPipe } from './Pipes/filter/filter.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { DetailsComponent } from './components/details/details.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    FilterPipe
+    FilterPipe,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,

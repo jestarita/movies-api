@@ -1,7 +1,6 @@
 <div class="container-fluid" style="margin-top: 5px;">
   <div class="row">
       <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
-    <form>
         <div class="form-group">
             <label>Busqueda de pelicula</label>
             <br>
@@ -9,27 +8,24 @@
            [(ngModel)]="filterPost" style="width: 58%;"/> -->
            <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
            [(ngModel)]="term" style="width: 58%;"/>
-         </div>        
-    </form>
+         </div> 
   </div>
-  <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
-      <form>
+  <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">
           <div class="form-group">
               <label>Selecion por genero</label>
               <br>
-              <select class="form-control" style="width: 50%;">
-                  <option value="6"> Accion</option>
-                  <option value="10"> comedia</option>
-                  <option value="10"> fantasia</option>
+              <select class="form-control" style="width: 50%;" (change)="Filter_genres($event.target.value)">
+                  <option value="">---Seleccione--</option> 
+                  <option *ngFor="let item of genresArray"  value="{{item}}"> {{item}}</option>                 
                   </select>
-           </div>        
-      </form>
+           </div>
     </div>
     <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">
-            <div class="form-group">
+        
+      <div class="form-group">
                 <label>Resultados por Pagina</label>
                 <br>
-               <select class="form-control" style="width: 35%;" [(ngModel)]="itemsPerPage">
+               <select class="form-control" style="width: 35%;" [(ngModel)]="items">
                  <option value="6" > 6</option>
                  <option value="9"> 9</option>
                  <option value="12"> 12</option>
@@ -42,14 +38,18 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:itemsPerPage, currentPage: p}"> -->
-        <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:itemsPerPage, currentPage: p}">
+      <div *ngIf="isLoading" class="text-center">
+        LOADING...
+      </div>
+    <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:items, currentPage: p}"> -->
+        <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:items, currentPage: p}">
       <div class="card" style="height: 95%;">
         <img class="card-img-top" src="{{movie.image}}" alt="Card image">
         <div class="card-body">
           <h4 class="card-title">{{movie.nombre}}</h4>
           <p class="card-text">Director: {{movie.director}}</p>
           <button class="btn btn-lg btn-outline-primary" (click)="open(content, movie)">Ver mas</button>
+          <button class="btn btn-lg btn-primary" *ngIf="favorite">guardado favorito</button>
         </div>
       </div>
      <br>
@@ -91,3 +91,7 @@
       <button  type="button"  class="btn btn-success" (click)="add_favorites(parametros.nombre)" [disabled]="ButtonDisabled">Add favorites</button>
   </div>
 </ng-template>
+<!-- <app-details>
+  
+</app-details>
+<button  type="button"  class="btn btn-success" (click)="open1(prueba)">abrir componente</button> -->
