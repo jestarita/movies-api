@@ -1,3 +1,8 @@
+<div *ngIf="isLoading" class="spinner-border text-primary" role="status" id="loader">
+  <span class="sr-only">Loading...</span>
+</div>
+
+
 <div class="container-fluid" style="margin-top: 5px;">
   <div class="row">
       <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
@@ -14,8 +19,9 @@
           <div class="form-group">
               <label>Selecion por genero</label>
               <br>
-              <select class="form-control" style="width: 50%;" (change)="Filter_genres($event.target.value)">
-                  <option value="">---Seleccione--</option> 
+              <select class="form-control" style="width: 50%;" [(ngModel)]="genSelected" (ngModelChange)="Filter_genres($event)">
+                  <option [disabled]="genSelected" value="undefined">---Seleccione--</option> 
+                  <option value="all">Todas</option>
                   <option *ngFor="let item of genres"  value="{{item.code}}"> {{item.label}}</option>                 
                   </select>
            </div>
@@ -26,9 +32,11 @@
                 <label>Resultados por Pagina</label>
                 <br>
                <select class="form-control" style="width: 35%;" [(ngModel)]="items">
+                <option value="2" > 2</option>
+                <option value="3" > 3</option>
+                <option value="5" > 5</option>
                  <option value="6" > 6</option>
                  <option value="9"> 9</option>
-                 <option value="12"> 12</option>
                  </select>
              </div>  
       </div>
@@ -38,19 +46,17 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div *ngIf="isLoading" class="text-center">
-        LOADING...
-      </div>
-      
+   
          <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:items, currentPage: p}"> -->
         <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:items, currentPage: p}" >
           <div class="card" style="height: 95%;">
             <img class="card-img-top" src="{{movie.image}}" alt="Card image" style="height: 550px;">
             <div class="card-body" >
-              <h5 class="card-title">{{movie.nombre}}</h5>
+              <h6 class="card-title">{{movie.nombre}}</h6>
               <p class="card-text"><strong>Director:</strong> {{movie.director}}</p>
-              <button class="btn btn-lg btn-outline-primary" (click)="open(content, movie)">Ver mas</button>
+              <button class="btn btn-lg btn-outline-primary" (click)="open(movie)">Ver mas</button>
               <a style="float: right;"><fa-icon [icon]="faStar" style="background-color: yellow;" *ngIf="readLocalStorageValue(movie.nombre)"></fa-icon></a>
+           
             </div>
           </div>
          <br>
@@ -68,40 +74,4 @@
 </div>
 
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title"> {{parametros.nombre}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form >
-        <div class="form-group">
-          <p>
-            <strong>Calificaci&oacute;n: </strong> <fa-icon [icon]="faStar" style="background-color: yellow;"></fa-icon>  {{parametros.estrellas}}/5.0
-          </p>
-        </div>
-
-        <div class="form-group">
-          <p>
-           <strong> Elenco: </strong> {{parametros.elenco}}
-          </p>
-        </div>
-
-        <div class="form-group">
-          <p>
-            <strong>Sinopsis: </strong> {{parametros.descripccion}}
-          </p>
-        </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-      <button type="button"  class="btn btn-danger" (click)="remove_favorites(parametros.nombre)"  [disabled]="ButtonDisabled1">remove From favorites</button>
-      <button  type="button"  class="btn btn-success" (click)="add_favorites(parametros.nombre)" [disabled]="ButtonDisabled">Add favorites</button>
-  </div>
-</ng-template>
-<!-- <app-details>
-  
-</app-details>
-<button  type="button"  class="btn btn-success" (click)="open1(prueba)">abrir componente</button> -->
+   <app-details [movie]="movieSelected" *ngIf="movieSelected" > </app-details>
