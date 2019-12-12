@@ -7,45 +7,30 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 })
 export class DetailsComponent implements OnInit {
 
-  @Input() movie: any;  
+  @Input() movie: any;
   faStar = faStar;
   @Output() closeModalEvent = new EventEmitter<boolean>();
-  @Input() modalVisible:any;
-  constructor() {   
-    
-   }
+  @Input() modalVisible: any;
+  constructor() {}
 
-  ngOnInit() {    
- 
+  ngOnInit() {
   this.exists1('nombre');
   this.exists2('nombre');
- 
-  } 
+  }
 
-  onCloseModal(event: any){
-     
-    this.movie = null;
+  onCloseModal(event: any) {
+    this.closeModalEvent.emit(false);
    }
 
 
 
   exists1(parametros) {
-     
-    if (localStorage.getItem(parametros)) {
-      return false;
-    } else {
-      return true;
-    }
+    return !localStorage.getItem(parametros);
   }
 
   exists2(parametros) {
-    if (localStorage.getItem(parametros)) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!localStorage.getItem(parametros);
   }
-
     //method to add movies to favorites
     add_favorites(params) {
       if (localStorage.getItem(params)) {

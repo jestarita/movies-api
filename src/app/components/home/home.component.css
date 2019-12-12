@@ -3,10 +3,28 @@
 }
 .card {
   width: 400px;
-  height: 100px;
+  height: 95%;
   padding: 25px;
   border: 1px 1px solid;
   display: flex;
+}
+#pagines {
+  width: 35%;
+}
+#genres_select {
+  width: 50%;
+}
+#pel {
+  width: 58%;
+}
+#filters {
+  margin-top: 5px;
+}
+a {
+  float: right;
+}
+a fa-icon {
+  background-color: yellow;
 }
 #loader {
   position: fixed;
@@ -39,6 +57,13 @@
   100% {
     transform: rotate(360deg);
   }
+}
+#image_movie {
+  height: 550px;
+  transition: transform 0.2s;
+}
+#image_movie:hover {
+  transform: scale(1.08);
 }
 .animate-bottom {
   position: sticky;

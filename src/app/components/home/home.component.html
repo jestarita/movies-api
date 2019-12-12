@@ -3,7 +3,7 @@
 </div>
 
 
-<div class="container-fluid" style="margin-top: 5px;">
+<div class="container-fluid"  id="filters" *ngIf="!isLoading">
   <div class="row">
       <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">   
         <div class="form-group">
@@ -12,14 +12,14 @@
            <!-- <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
            [(ngModel)]="filterPost" style="width: 58%;"/> -->
            <input type="text" class="form-control" id="pel" name="filterPost" placeholder="Buscar..." 
-           [(ngModel)]="term" style="width: 58%;"/>
+           [(ngModel)]="term" />
          </div> 
   </div>
   <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">
           <div class="form-group">
               <label>Selecion por genero</label>
               <br>
-              <select class="form-control" style="width: 50%;" [(ngModel)]="genSelected" (ngModelChange)="Filter_genres($event)">
+              <select class="form-control" id="genres_select" [(ngModel)]="genSelected" (ngModelChange)="Filter_genres($event)">
                   <option [disabled]="genSelected" value="undefined">---Seleccione--</option> 
                   <option value="all">Todas</option>
                   <option *ngFor="let item of genres"  value="{{item.code}}"> {{item.label}}</option>                 
@@ -31,7 +31,7 @@
       <div class="form-group">
                 <label>Resultados por Pagina</label>
                 <br>
-               <select class="form-control" style="width: 35%;" [(ngModel)]="items">
+               <select class="form-control" [(ngModel)]="items" id="pagines">
                 <option value="2" > 2</option>
                 <option value="3" > 3</option>
                 <option value="5" > 5</option>
@@ -44,18 +44,18 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isLoading">
   <div class="row">
    
          <!-- <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:filterPost | paginate:{itemsPerPage:items, currentPage: p}"> -->
         <div class="col-sm-4 col-md-4" *ngFor="let movie of info | filter:term | paginate:{itemsPerPage:items, currentPage: p}" >
-          <div class="card" style="height: 95%;">
-            <img class="card-img-top" src="{{movie.image}}" alt="Card image" style="height: 550px;">
+          <div class="card">
+            <img class="card-img-top" src="{{movie.image}}" alt="Card image" id="image_movie" >
             <div class="card-body" >
               <h6 class="card-title">{{movie.nombre}}</h6>
               <p class="card-text"><strong>Director:</strong> {{movie.director}}</p>
               <button class="btn btn-lg btn-outline-primary" (click)="open(movie)">Ver mas</button>
-              <a style="float: right;"><fa-icon [icon]="faStar" style="background-color: yellow;" *ngIf="readLocalStorageValue(movie.nombre)"></fa-icon></a>
+              <a><fa-icon [icon]="faStar"  *ngIf="readLocalStorageValue(movie.nombre)"></fa-icon></a>
            
             </div>
           </div>
@@ -67,11 +67,11 @@
   </div>
 
 </div>
-<div class="container" >
+<div class="container" *ngIf="!isLoading" >
   <div class="row">
       <pagination-controls (pageChange)="p= $event" responsive="true"></pagination-controls>
   </div>
 </div>
 
 
-   <app-details [movie]="movieSelected" *ngIf="movieSelected" > </app-details>
+   <app-details [movie]="movieSelected" *ngIf="movieSelected" (closeModalEvent)="movieSelected = $event"> </app-details>
