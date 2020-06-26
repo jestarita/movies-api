@@ -27,7 +27,7 @@
            </div>
     </div>
     <div class="col-xl-4 .col-lg-4 .col-md-4 col-sm-12">
-        
+
       <div class="form-group">
                 <label>Resultados por Pagina</label>
                 <br>
@@ -40,8 +40,9 @@
                  </select>
              </div>  
       </div>
+    </div>
   </div>
-</div>
+
 
 
 <div class="container-fluid" *ngIf="!isLoading">
@@ -61,15 +62,17 @@
           </div>
          <br>
         </div>
-      
-   
-    
-  </div>
+      </div>
+      <br>
+    </div>
 
-</div>
+
+
+
+
 <div class="container" *ngIf="!isLoading" >
   <div class="row">
-      <pagination-controls (pageChange)="p= $event" responsive="true"></pagination-controls>
+    <pagination-controls (pageChange)="p= $event" responsive="true"></pagination-controls>
   </div>
 </div>
 

@@ -34,23 +34,20 @@ export class DetailsComponent implements OnInit {
     //method to add movies to favorites
     add_favorites(params) {
       if (localStorage.getItem(params)) {
-      console.log('la pelicula ya esta agregada'); 
+      console.log('la pelicula ya esta agregada');
       } else {
         localStorage.setItem(params, params);
-      }  
-    }
-  
-  
-    //method to remove movies from favorites
-    remove_favorites(params) {
-      if (localStorage.getItem(params)) {
-        localStorage.removeItem(params);     
-      } else {
-       console.log('la pelicula no existe')
       }
     }
 
-  
 
+    // method to remove movies from favorites
+    remove_favorites(params) {
+      if (localStorage.getItem(params)) {
+        localStorage.removeItem(params);
+      } else {
+       console.log('la pelicula no existe');
+      }
+    }
 
 }
